@@ -24,14 +24,23 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-quartz'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    implementation 'net.lingala.zip4j:zip4j:2.11.2'
+    implementation 'org.locationtech.proj4j:proj4j:1.1.5'
+
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.hibernate:hibernate-spatial'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    implementation 'org.modelmapper:modelmapper:3.1.0'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.batch:spring-batch-test'
+
+    testImplementation 'com.squareup.okhttp3:okhttp'
+    testImplementation 'com.squareup.okhttp3:mockwebserver'
+    implementation 'io.netty:netty-resolver-dns-native-macos:4.1.84.Final:osx-aarch_64'
 }
 
 tasks.named('test') {
