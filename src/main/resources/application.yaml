@@ -29,10 +29,10 @@ open-api:
     base-url: https://business.juso.go.kr
     road-address:
       path: /addrlink/addrLinkApi.do
-      key: {BUSINESS_JUSO_ROAD_ADDRESS_KEY}
+      key: ${BUSINESS_JUSO_ROAD_ADDRESS_KEY}
     coord:
       path: /addrlink/addrCoordApi.do
-      key: {BUSINESS_JUSO_COORD_KEY}
+      key: ${BUSINESS_JUSO_COORD_KEY}
 
 ---
 spring:
