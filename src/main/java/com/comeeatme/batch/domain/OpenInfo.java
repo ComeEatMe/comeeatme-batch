@@ -25,7 +25,7 @@ public class OpenInfo {
     @Column(name = "open_info_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "restaurant_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Restaurant restaurant;
 
