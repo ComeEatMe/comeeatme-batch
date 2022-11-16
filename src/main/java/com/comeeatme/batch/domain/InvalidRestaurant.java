@@ -11,25 +11,25 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "incomplete_restaurant",
+@Table(name = "invalid_restaurant",
         indexes = {
-            @Index(name = "IX_incomplete_restaurant_name", columnList = "name"),
-            @Index(name = "IX_incomplete_restaurant_open_info_management_num", columnList = "open_info_management_num")
+            @Index(name = "IX_invalid_restaurant_name", columnList = "name"),
+            @Index(name = "IX_invalid_restaurant_open_info_management_num", columnList = "open_info_management_num")
         }
 )
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class IncompleteRestaurant extends BaseTimeEntity {
+public class InvalidRestaurant extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "incomplete_restaurant_id")
+    @Column(name = "invalid_restaurant_id")
     private Long id;
 
-    @Column(name = "name", length = 45)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "phone", length = 25)
+    @Column(name = "phone")
     private String phone;
 
     @Column(name = "address_name")
@@ -38,20 +38,26 @@ public class IncompleteRestaurant extends BaseTimeEntity {
     @Column(name = "road_address_name")
     private String addressRoadName;
 
+    @Column(name = "address_x")
+    private Double addressX;
+
+    @Column(name = "address_y")
+    private Double addressY;
+
     // 관리번호
-    @Column(name = "open_info_management_num", length = 65)
+    @Column(name = "open_info_management_num")
     private String openInfoManagementNum;
 
     // 개방서비스아이디
-    @Column(name = "open_info_service_id", length = 15)
+    @Column(name = "open_info_service_id")
     private String openInfoServiceId;
 
     // 개방서비스명
-    @Column(name = "open_info_name", length = 15)
+    @Column(name = "open_info_name")
     private String openInfoName;
 
     // 업태구분명
-    @Column(name = "open_info_category", length = 15)
+    @Column(name = "open_info_category")
     private String openInfoCategory;
 
     // 인허가일자
@@ -63,12 +69,14 @@ public class IncompleteRestaurant extends BaseTimeEntity {
     private LocalDateTime openInfoLastModifiedAt;
 
     @Builder
-    private IncompleteRestaurant(
+    private InvalidRestaurant(
             Long id,
             String name,
             String phone,
             String addressName,
             String addressRoadName,
+            Double addressX,
+            Double addressY,
             String openInfoManagementNum,
             String openInfoServiceId,
             String openInfoName,
@@ -80,6 +88,8 @@ public class IncompleteRestaurant extends BaseTimeEntity {
         this.phone = phone;
         this.addressName = addressName;
         this.addressRoadName = addressRoadName;
+        this.addressX = addressX;
+        this.addressY = addressY;
         this.openInfoManagementNum = openInfoManagementNum;
         this.openInfoServiceId = openInfoServiceId;
         this.openInfoName = openInfoName;
