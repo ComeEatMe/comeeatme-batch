@@ -17,6 +17,8 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address {
 
+    public static final GeometryFactory GEOMETRY_FACTORY = new GeometryFactory(new PrecisionModel(), 4326);
+
     @Column(name = "address_name", nullable = false)
     private String name;
 
@@ -38,9 +40,7 @@ public class Address {
     }
 
     public static Point createPoint(double x, double y) {
-        GeometryFactory geometryFactory = new GeometryFactory(
-                new PrecisionModel(), 4326);
-        return geometryFactory.createPoint(new Coordinate(x, y));
+        return GEOMETRY_FACTORY.createPoint(new Coordinate(x, y));
     }
 
 }
