@@ -1,74 +1,3 @@
-drop table if exists restaurant;
-
-drop table if exists incomplete_restaurant;
-
-drop table if exists open_info;
-
--- Restaurant
-create table restaurant
-(
-    restaurant_id     bigint       not null auto_increment,
-    name              varchar(45)  not null,
-    phone             varchar(25)  not null,
-    address_name      varchar(255) not null,
-    road_address_name varchar(255) not null,
-    location          point        not null srid 4326,
-    use_yn            bit          not null,
-    created_at        datetime(6)  not null,
-    last_modified_at  datetime(6)  not null,
-    primary key (restaurant_id)
-) engine = InnoDB;
-
-create index IX_restaurant_name on restaurant (name);
-
-create spatial index IX_restaurant_location on restaurant (location);
-
-
--- IncompleteRestaurant
-create table incomplete_restaurant
-(
-    incomplete_restaurant_id   bigint auto_increment,
-    name                       varchar(45),
-    phone                      varchar(25),
-    address_name               varchar(255),
-    road_address_name          varchar(255),
-    open_info_management_num   varchar(65),
-    open_info_service_id       varchar(15),
-    open_info_name             varchar(15),
-    open_info_category         varchar(15),
-    open_info_permission_date  date,
-    open_info_last_modified_at datetime(6),
-    use_yn                     bit         not null,
-    created_at                 datetime(6) not null,
-    last_modified_at           datetime(6) not null,
-    primary key (incomplete_restaurant_id)
-) engine = InnoDB;
-
-create index IX_incomplete_restaurant_name on incomplete_restaurant (name);
-
-create index IX_incomplete_restaurant_open_info_management_num on incomplete_restaurant (open_info_management_num);
-
-
--- OpenInfo
-create table open_info
-(
-    open_info_id     bigint      not null auto_increment,
-    restaurant_id    bigint      not null,
-    management_num   varchar(65) not null,
-    service_id       varchar(15) not null,
-    name             varchar(15) not null,
-    category         varchar(15) not null,
-    permission_date  date        not null,
-    last_modified_at datetime(6) not null,
-    primary key (open_info_id)
-) engine = InnoDB;
-
-alter table open_info
-    add constraint UK_open_info_restaurant unique (restaurant_id);
-
-alter table open_info
-    add constraint UK_open_info_management_num unique (management_num);
-
 -- Batch
 DROP TABLE IF EXISTS BATCH_STEP_EXECUTION_CONTEXT;
 DROP TABLE IF EXISTS BATCH_JOB_EXECUTION_CONTEXT;
@@ -198,3 +127,92 @@ INSERT INTO BATCH_JOB_SEQ (ID, UNIQUE_KEY)
 select *
 from (select 0 as ID, '0' as UNIQUE_KEY) as tmp
 where not exists(select * from BATCH_JOB_SEQ);
+
+-- My batch table
+drop table if exists batch_skip_log;
+
+create table batch_skip_log
+(
+    batch_skip_log_id     bigint      not null auto_increment,
+    exception_name        varchar(255),
+    exception_message     varchar(2000),
+    exception_stack_trace text,
+    item                  varchar(2000),
+    created_at            datetime(6) not null,
+    primary key (batch_skip_log_id)
+) engine = InnoDB;
+
+-- Domain ----------
+
+drop table if exists restaurant;
+
+drop table if exists invalid_restaurant;
+
+drop table if exists open_info;
+
+-- Restaurant
+create table restaurant
+(
+    restaurant_id     bigint       not null auto_increment,
+    name              varchar(45)  not null,
+    phone             varchar(25)  not null,
+    address_name      varchar(255) not null,
+    road_address_name varchar(255) not null,
+    location          point        not null srid 4326,
+    use_yn            bit          not null,
+    created_at        datetime(6)  not null,
+    last_modified_at  datetime(6)  not null,
+    primary key (restaurant_id)
+) engine = InnoDB;
+
+create index IX_restaurant_name on restaurant (name);
+
+create spatial index IX_restaurant_location on restaurant (location);
+
+
+-- IncompleteRestaurant
+create table invalid_restaurant
+(
+    invalid_restaurant_id   bigint auto_increment,
+    name                       varchar(45),
+    phone                      varchar(25),
+    address_name               varchar(255),
+    road_address_name          varchar(255),
+    address_x                  double,
+    address_y                  double,
+    open_info_management_num   varchar(65),
+    open_info_service_id       varchar(15),
+    open_info_name             varchar(15),
+    open_info_category         varchar(15),
+    open_info_permission_date  date,
+    open_info_last_modified_at datetime(6),
+    use_yn                     bit         not null,
+    created_at                 datetime(6) not null,
+    last_modified_at           datetime(6) not null,
+    primary key (invalid_restaurant_id)
+) engine = InnoDB;
+
+create index IX_invalid_restaurant_name on invalid_restaurant (name);
+
+create index IX_invalid_restaurant_open_info_management_num on invalid_restaurant (open_info_management_num);
+
+
+-- OpenInfo
+create table open_info
+(
+    open_info_id     bigint      not null auto_increment,
+    restaurant_id    bigint      not null,
+    management_num   varchar(65) not null,
+    service_id       varchar(15) not null,
+    name             varchar(15) not null,
+    category         varchar(15) not null,
+    permission_date  date        not null,
+    last_modified_at datetime(6) not null,
+    primary key (open_info_id)
+) engine = InnoDB;
+
+alter table open_info
+    add constraint UK_open_info_restaurant unique (restaurant_id);
+
+alter table open_info
+    add constraint UK_open_info_management_num unique (management_num);
