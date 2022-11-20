@@ -19,6 +19,9 @@ spring:
     open-in-view: false
 
   batch:
+    job:
+      enabled: true
+      names: "initJob"
     jdbc:
       initialize-schema: never
       isolation-level-for-create: default
@@ -33,6 +36,10 @@ open-api:
     coord:
       path: /addrlink/addrCoordApi.do
       key: ${BUSINESS_JUSO_COORD_KEY}
+  local-data:
+    base-url: http://www.localdata.go.kr
+    path: /platform/rest/TO0/openDataApi
+    key: ${LOCAL_DATA_KEY}
 
 ---
 spring:
@@ -59,9 +66,9 @@ spring:
     jdbc:
       initialize-schema: never
 
-logging.level:
-  org.hibernate.SQL: debug
-  org.hibernate.type: trace
+#logging.level:
+#  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
 
 ---
 spring:
