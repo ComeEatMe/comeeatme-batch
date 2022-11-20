@@ -7,6 +7,11 @@
 - LOCALDATA(지방행정 인허가 데이터개방)의 API를 통해 매일 데이터 업데이트
 - 제공받는 데이터에서 부족한 값들은 다른 Open API를 이용해서 보충
 
+## Job
+
+- `initJob`: 데이터 초기화
+ - `initAddressCodeJob`: AddressCode(법정동코드) 초기화 
+
 ## Setting
 
 > 어플리케이션 실행을 위해 필요한 환경 변수
