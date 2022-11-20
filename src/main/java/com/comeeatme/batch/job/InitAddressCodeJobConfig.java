@@ -52,15 +52,13 @@ public class InitAddressCodeJobConfig {
             Step addressCodeInitFileUnzipStep,
             Step addressCodeInitFileToDbStep,
             Step addressCodeDepth2UpdateStep,
-            Step addressCodeDepth3UpdateStep,
-            Step addressCodeDepth4UpdateStep) {
+            Step addressCodeDepth3UpdateStep) {
         return jobBuilderFactory.get("initAddressCodeJob")
                 .start(addressCodeInitFileDownloadStep)
                 .next(addressCodeInitFileUnzipStep)
                 .next(addressCodeInitFileToDbStep)
                 .next(addressCodeDepth2UpdateStep)
                 .next(addressCodeDepth3UpdateStep)
-                .next(addressCodeDepth4UpdateStep)
                 .build();
     }
 
@@ -172,29 +170,6 @@ public class InitAddressCodeJobConfig {
         Map<String, Object> parameters = Map.of("depth", 2);
         return new JpaPagingItemReaderBuilder<AddressCode>()
                 .name("addressCodeDepth2Reader")
-                .entityManagerFactory(entityManagerFactory)
-                .pageSize(chunkSize)
-                .queryString("select ac from AddressCode ac where ac.depth = :depth")
-                .parameterValues(parameters)
-                .build();
-    }
-
-    @Bean
-    public Step addressCodeDepth4UpdateStep(
-            ItemReader<AddressCode> addressCodeDepth3Reader,
-            JpaItemWriter<AddressCode> addressCodeSubAddressUpdateWriter) {
-        return stepBuilderFactory.get("addressCodeRiUpdateStep")
-                .<AddressCode, AddressCode>chunk(chunkSize)
-                .reader(addressCodeDepth3Reader)
-                .writer(addressCodeSubAddressUpdateWriter)
-                .build();
-    }
-
-    @Bean
-    public ItemReader<AddressCode> addressCodeDepth3Reader(EntityManagerFactory entityManagerFactory) {
-        Map<String, Object> parameters = Map.of("depth", 3);
-        return new JpaPagingItemReaderBuilder<AddressCode>()
-                .name("addressCodeDepth4Reader")
                 .entityManagerFactory(entityManagerFactory)
                 .pageSize(chunkSize)
                 .queryString("select ac from AddressCode ac where ac.depth = :depth")
