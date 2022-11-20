@@ -142,13 +142,42 @@ create table batch_skip_log
     primary key (batch_skip_log_id)
 ) engine = InnoDB;
 
+
 -- Domain ----------
+
+drop table if exists address_code;
 
 drop table if exists restaurant;
 
 drop table if exists invalid_restaurant;
 
 drop table if exists open_info;
+
+-- AddressCode
+create table address_code
+(
+    code             varchar(15) not null,
+    parent_code      varchar(15),
+    name               varchar(15),
+    full_name        varchar(65) not null,
+    depth            int         not null,
+    use_yn           bit         not null,
+    created_at       datetime(6) not null,
+    last_modified_at datetime(6) not null,
+    primary key (code)
+) engine = InnoDB;
+
+alter table address_code
+    add constraint FK_address_code_parent_code
+        foreign key (parent_code)
+            references address_code (code);
+
+alter table address_code
+    add constraint UK_address_code_full_name unique (full_name);
+
+create index IX_address_code_name on address_code (name);
+
+create index IX_address_code_depth on address_code (depth);
 
 -- Restaurant
 create table restaurant
