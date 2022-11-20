@@ -28,6 +28,7 @@ public class AddressCodeInitProcessor implements ItemProcessor<AddressCodeDto, A
                 .fullName(address)
                 .code(code)
                 .depth(depth)
+                .terminal(true)
                 .build();
     }
 

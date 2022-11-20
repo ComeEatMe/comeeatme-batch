@@ -158,9 +158,10 @@ create table address_code
 (
     code             varchar(15) not null,
     parent_code      varchar(15),
-    name               varchar(15),
+    name             varchar(15) not null,
     full_name        varchar(65) not null,
     depth            int         not null,
+    terminal         bit         not null,
     use_yn           bit         not null,
     created_at       datetime(6) not null,
     last_modified_at datetime(6) not null,

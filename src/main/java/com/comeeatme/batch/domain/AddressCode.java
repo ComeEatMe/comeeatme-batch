@@ -45,7 +45,7 @@ public class AddressCode extends BaseTimeEntity implements Persistable<String> {
     @JoinColumn(name = "parent_code", foreignKey = @ForeignKey(name = "FK_address_code_parent_code"))
     private AddressCode parentCode;
 
-    @Column(name = "name", length = 15)
+    @Column(name = "name", length = 15, nullable = false)
     private String name;
 
     @Column(name = "full_name", length = 65, nullable = false)
@@ -54,18 +54,23 @@ public class AddressCode extends BaseTimeEntity implements Persistable<String> {
     @Column(name = "depth", nullable = false)
     private Integer depth;
 
+    @Column(name = "terminal", nullable = false)
+    private Boolean terminal;
+
     @Builder
     private AddressCode(
             String code,
             AddressCode parentCode,
             String name,
             String fullName,
-            Integer depth) {
+            Integer depth,
+            Boolean terminal) {
         this.code = code;
         this.parentCode = parentCode;
         this.name = name;
         this.fullName = fullName;
         this.depth = depth;
+        this.terminal = terminal;
     }
 
     @Override
@@ -76,6 +81,10 @@ public class AddressCode extends BaseTimeEntity implements Persistable<String> {
     @Override
     public boolean isNew() {
         return isNull(getCreatedAt());
+    }
+
+    public boolean hasChild() {
+        return !getTerminal();
     }
 
 }

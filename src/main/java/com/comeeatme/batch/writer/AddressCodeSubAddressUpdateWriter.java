@@ -27,6 +27,18 @@ public class AddressCodeSubAddressUpdateWriter extends JpaItemWriter<AddressCode
                         .setParameter("childCodeParam", childCodeParam)
                         .setParameter("parentCode", parent.getCode())
                         .getResultList();
+                boolean terminal = children.isEmpty();
+                entityManager.merge(
+                        AddressCode.builder()
+                                .code(parent.getCode())
+                                .parentCode(parent.getParentCode())
+                                .name(parent.getName())
+                                .fullName(parent.getFullName())
+                                .depth(parent.getDepth())
+                                .terminal(terminal)
+                                .build()
+                );
+
                 for (AddressCode child : children) {
                     String childName = child.getFullName()
                             .substring(parent.getFullName().length())
@@ -38,6 +50,7 @@ public class AddressCodeSubAddressUpdateWriter extends JpaItemWriter<AddressCode
                                     .name(childName)
                                     .fullName(child.getFullName())
                                     .depth(parent.getDepth() + 1)
+                                    .terminal(child.getTerminal())
                                     .build()
                     );
                     addedToContextCount++;
