@@ -2,6 +2,7 @@ package com.comeeatme.batch.job;
 
 import com.comeeatme.batch.domain.AddressCode;
 import com.comeeatme.batch.domain.dto.AddressCodeDto;
+import com.comeeatme.batch.domain.repository.AddressCodeRepository;
 import com.comeeatme.batch.processor.AddressCodeInitProcessor;
 import com.comeeatme.batch.writer.AddressCodeSubAddressUpdateWriter;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static com.comeeatme.batch.job.InitJobConfig.FILE_DIR;
@@ -52,13 +54,15 @@ public class InitAddressCodeJobConfig {
             Step addressCodeInitFileUnzipStep,
             Step addressCodeInitFileToDbStep,
             Step addressCodeDepth2UpdateStep,
-            Step addressCodeDepth3UpdateStep) {
+            Step addressCodeDepth3UpdateStep,
+            Step addressCodeDeleteNotUsedStep) {
         return jobBuilderFactory.get("initAddressCodeJob")
                 .start(addressCodeInitFileDownloadStep)
                 .next(addressCodeInitFileUnzipStep)
                 .next(addressCodeInitFileToDbStep)
                 .next(addressCodeDepth2UpdateStep)
                 .next(addressCodeDepth3UpdateStep)
+                .next(addressCodeDeleteNotUsedStep)
                 .build();
     }
 
@@ -182,6 +186,32 @@ public class InitAddressCodeJobConfig {
         AddressCodeSubAddressUpdateWriter itemWriter = new AddressCodeSubAddressUpdateWriter();
         itemWriter.setEntityManagerFactory(entityManagerFactory);
         return itemWriter;
+    }
+
+    @Bean
+    public Step addressCodeDeleteNotUsedStep(AddressCodeRepository addressCodeRepository) {
+        return stepBuilderFactory.get("addressCodeDeleteNotUsedStep")
+                .tasklet((contribution, chunkContext) -> {
+                    List<String> notUsedAddresses = List.of(
+                            "경기도 수원시",
+                            "경기도 성남시",
+                            "경기도 안양시",
+                            "경기도 안산시",
+                            "경기도 고양시",
+                            "경기도 용인시",
+                            "충청북도 청주시",
+                            "충청남도 천안시",
+                            "전라북도 전주시",
+                            "경상북도 포항시",
+                            "경상남도 창원시"
+                    );
+                    List<AddressCode> notUsedAddressCodes = addressCodeRepository
+                            .findAllByFullNameIn(notUsedAddresses);
+                    notUsedAddressCodes.forEach(AddressCode::delete);
+                    addressCodeRepository.saveAll(notUsedAddressCodes);
+                    return RepeatStatus.FINISHED;
+                })
+                .build();
     }
 
 }
