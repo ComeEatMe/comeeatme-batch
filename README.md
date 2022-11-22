@@ -1,4 +1,5 @@
 # comeeatme-batch
+
 컴잇미 배치 프로그램
 
 ## Feature
@@ -25,9 +26,13 @@
 - [LOCAL DATA(지행정 인허가 데이터 개방)](https://www.localdata.go.kr/main.do)
   - 음식점 데이터 csv
   - 음식점 데이터 변경분 API
-- [공간정보 오픈플랫폼 오픈API](https://www.vworld.kr/dev/v4api.do)
-  - Geocoder API : 주소를 통한 좌표 구하기
   - LOCAL DATA의 좌표가 오차가 크므로 이 API를 통해서 구한 좌표 이용
 - [주소기반산업지원서비스](https://business.juso.go.kr/addrlink/main.do?cPath=99MM)
   - 일반 주소 <-> 도로명 주소 변환
   - 일반 주소 or 도로명 주소가 제공되지 않을 경우 사용 
+
+### Data Analysis
+
+- [지역데이터 일반음식점](https://colab.research.google.com/drive/1dsJGHQrTcYN5GWxSRF15NQvOak-iMSmI?usp=sharing)
+- [지역데이터 휴게음식점](https://colab.research.google.com/drive/1v-c4QuwsC7CaqFQ-b39FgwP3NaW-vqDE?usp=sharing)
+- [법정동코드](https://colab.research.google.com/drive/1MbQxW0pQeyLpkmUvZqaNPEHbmLH8K6_K?usp=sharing)
