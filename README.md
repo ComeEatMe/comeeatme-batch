@@ -20,6 +20,9 @@
 - `DATABASE_URL` : 데이터 베이스 URL
 - `DATABASE_USERNAME` : 데이터 베이스 아이디
 - `DATABASE_PASSWORD` : 데이터 베이스 비밀번호
+- `LOCAL_DATA_KEY` : 지역 데이터 API key
+- `BUSINESS_JUSO_ROAD_ADDRESS_KEY` : 주소기반산업지원서비스 도로명주소 API key
+- `BUSINESS_JUSO_COORD_KEY` : 주소기반산업지원서비스 좌표제공 API key
 
 ## Data
 
