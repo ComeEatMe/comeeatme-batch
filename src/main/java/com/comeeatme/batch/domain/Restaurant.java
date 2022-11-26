@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Entity
 @Table(name = "restaurant",
@@ -23,7 +24,7 @@ public class Restaurant extends BaseTimeEntity {
     @Column(name = "restaurant_id")
     private Long id;
 
-    @Column(name = "name", length = 45, nullable = false)
+    @Column(name = "name", length = 100, nullable = false)
     private String name;
 
     @Column(name = "phone", length = 25, nullable = false)
@@ -42,6 +43,19 @@ public class Restaurant extends BaseTimeEntity {
         this.name = name;
         this.phone = phone;
         this.address = address;
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", addressName='" + address.getName() + '\'' +
+                ", addressRoadName='" + address.getRoadName() + '\'' +
+                ", addressCode='" + Optional.ofNullable(address.getAddressCode())
+                    .map(AddressCode::getCode).orElse(null) + '\'' +
+                '}';
     }
 
 }

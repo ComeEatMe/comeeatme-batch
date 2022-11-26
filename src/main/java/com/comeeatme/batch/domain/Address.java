@@ -4,20 +4,13 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.geom.PrecisionModel;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import javax.persistence.*;
 
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Address {
-
-    public static final GeometryFactory GEOMETRY_FACTORY = new GeometryFactory(new PrecisionModel(), 4326);
 
     @Column(name = "address_name", nullable = false)
     private String name;
@@ -25,22 +18,19 @@ public class Address {
     @Column(name = "road_address_name", nullable = false)
     private String roadName;
 
-    @Column(name = "location",  nullable = false)
-    private Point location;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "address_code")
+    private AddressCode addressCode;
 
     @Builder
     private Address(
             String name,
             String roadName,
-            Double x,
-            Double y) {
+            AddressCode addressCode
+    ) {
         this.name = name;
         this.roadName = roadName;
-        this.location = createPoint(x, y);
-    }
-
-    public static Point createPoint(double x, double y) {
-        return GEOMETRY_FACTORY.createPoint(new Coordinate(x, y));
+        this.addressCode = addressCode;
     }
 
 }

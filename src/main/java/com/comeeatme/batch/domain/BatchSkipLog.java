@@ -1,6 +1,6 @@
 package com.comeeatme.batch.domain;
 
-import com.comeeatme.batch.domain.core.BaseCreatedAtEntity;
+import com.comeeatme.batch.domain.core.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Table(name = "batch_skip_log")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BatchSkipLog extends BaseCreatedAtEntity {
+public class BatchSkipLog extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
