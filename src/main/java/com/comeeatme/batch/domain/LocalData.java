@@ -14,7 +14,6 @@ import static java.util.Objects.isNull;
 @Entity
 @Table(name = "local_data",
         uniqueConstraints = {
-                @UniqueConstraint(name = "UK_local_data_management_num", columnNames = "management_num"),
                 @UniqueConstraint(name = "UK_local_data_restaurant", columnNames = "restaurant_id")
         }
 )
