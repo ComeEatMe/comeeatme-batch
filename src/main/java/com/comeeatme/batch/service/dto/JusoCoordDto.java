@@ -9,17 +9,9 @@ import java.util.List;
 @NoArgsConstructor
 public class JusoCoordDto {
 
-    private Common common;
+    private JusoCommonDto common;
 
     private List<Juso> juso;
-
-    @Data
-    @NoArgsConstructor
-    public static class Common {
-        private String totalCount;      // Y    총 검색 데이터수
-        private String errorCode;       // Y    에러 코드
-        private String errorMessage;    // Y    에러 메시지
-    }
 
     @Data
     @NoArgsConstructor

@@ -1,6 +1,9 @@
 package com.comeeatme.batch.service;
 
+import com.comeeatme.batch.exception.ApiFrequentInShortException;
+import com.comeeatme.batch.exception.ApiRequestErrorException;
 import com.comeeatme.batch.service.dto.JusoAddressDto;
+import com.comeeatme.batch.service.dto.JusoCommonDto;
 import com.comeeatme.batch.service.dto.JusoCoordDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,11 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Map;
+import java.util.Objects;
+
+import static java.util.Objects.isNull;
 
 @Service
 public class JusoService {
 
     private final String jusoRoadAddressPath;
+
     private final String jusoRoadAddressKey;
 
     private final String jusoCoordPath;
@@ -53,7 +60,23 @@ public class JusoService {
                 ).retrieve()
                 .bodyToMono(Map.class)
                 .block();
-        return modelMapper.map(responseBody.get("results"), JusoAddressDto.class);
+        if (isNull(responseBody)) {
+            throw new ApiRequestErrorException("Response Body is null. keyword=" + keyword);
+        }
+        JusoAddressDto results = modelMapper.map(responseBody.get("results"), JusoAddressDto.class);
+        validateResult(results.getCommon());
+        return results;
+    }
+
+    private void validateResult(JusoCommonDto jusoCommon) {
+        if (isNull(jusoCommon)) {
+            throw new ApiRequestErrorException("응답에 문제가 있습니다. " + jusoCommon);
+        } else if (Objects.equals("E007", jusoCommon.getErrorCode())) {
+            throw new ApiFrequentInShortException(jusoCommon.getErrorMessage());
+        } else if (!Objects.equals("0", jusoCommon.getErrorCode())) {
+            throw new ApiRequestErrorException(
+                    jusoCommon.getErrorCode(), jusoCommon.getErrorMessage());
+        }
     }
 
     /**
@@ -75,7 +98,14 @@ public class JusoService {
                 ).retrieve()
                 .bodyToMono(Map.class)
                 .block();
-        return modelMapper.map(responseBody.get("results"), JusoCoordDto.class);
+        if (isNull(responseBody)) {
+            throw new ApiRequestErrorException(String.format("Response Body is null." +
+                    " amdCd=%s, rnMgtSn=%s, udrtYn=%s, buldMnnm=%s, buldSlno=%s",
+                    amdCd, rnMgtSn, udrtYn, buldMnnm, buldSlno));
+        }
+        JusoCoordDto results = modelMapper.map(responseBody.get("results"), JusoCoordDto.class);
+        validateResult(results.getCommon());
+        return results;
     }
 
     public JusoCoordDto searchCoordinate(JusoAddressDto.Juso param) {

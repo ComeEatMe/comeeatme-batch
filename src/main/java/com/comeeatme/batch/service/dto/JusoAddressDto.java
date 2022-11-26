@@ -9,19 +9,9 @@ import java.util.List;
 @NoArgsConstructor
 public class JusoAddressDto {
 
-    private Common common;
+    private JusoCommonDto common;
 
     private List<Juso> juso;
-
-    @Data
-    @NoArgsConstructor
-    public static class Common {
-        private String totalCount;      // Y    총 검색 데이터수
-        private Integer currentPage;    // Y    페이지 번호
-        private Integer countPerPage;   // Y    페이지당 출력할 결과 Row 수
-        private String errorCode;       // Y    에러 코드
-        private String errorMessage;    // Y    에러 메시지
-    }
 
     @Data
     @NoArgsConstructor
