@@ -40,7 +40,7 @@ import static com.comeeatme.batch.job.InitJobConfig.FILE_DIR;
 @Configuration
 @Slf4j
 @RequiredArgsConstructor
-public class InitAddressCodeJobConfig {
+public class AddressCodeInitJobConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
 
@@ -49,14 +49,14 @@ public class InitAddressCodeJobConfig {
     private final int chunkSize = 10;
 
     @Bean
-    public Job initAddressCodeJob(
+    public Job addressInitCodeJob(
             Step addressCodeInitFileDownloadStep,
             Step addressCodeInitFileUnzipStep,
             Step addressCodeInitFileToDbStep,
             Step addressCodeDepth2UpdateStep,
             Step addressCodeDepth3UpdateStep,
             Step addressCodeDeleteNotUsedStep) {
-        return jobBuilderFactory.get("initAddressCodeJob")
+        return jobBuilderFactory.get("addressInitCodeJob")
                 .start(addressCodeInitFileDownloadStep)
                 .next(addressCodeInitFileUnzipStep)
                 .next(addressCodeInitFileToDbStep)
