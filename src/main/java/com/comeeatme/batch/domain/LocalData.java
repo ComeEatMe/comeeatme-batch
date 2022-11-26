@@ -30,7 +30,7 @@ public class OpenInfo {
     private Restaurant restaurant;
 
     // 관리번호
-    @Column(name = "management_num", length = 65, nullable = false)
+    @Column(name = "management_num", length = 45, nullable = false)
     private String managementNum;
 
     // 개방서비스아이디
@@ -42,7 +42,7 @@ public class OpenInfo {
     private String name;
 
     // 업태구분명
-    @Column(name = "category", length = 15, nullable = false)
+    @Column(name = "category", length = 25, nullable = false)
     private String category;
 
     // 인허가일자
@@ -53,6 +53,10 @@ public class OpenInfo {
     @Column(name = "last_modified_at", nullable = false)
     private LocalDateTime lastModifiedAt;
 
+    // 폐업 일자
+    @Column(name = "closed_date")
+    private LocalDate closedDate;
+
     @Builder
     private OpenInfo(
             Long id,
@@ -62,7 +66,8 @@ public class OpenInfo {
             String category,
             String managementNum,
             LocalDate permissionDate,
-            LocalDateTime lastModifiedAt) {
+            LocalDateTime lastModifiedAt,
+            LocalDate closedDate) {
         this.id = id;
         this.restaurant = restaurant;
         this.serviceId = serviceId;
@@ -71,6 +76,22 @@ public class OpenInfo {
         this.managementNum = managementNum;
         this.permissionDate = permissionDate;
         this.lastModifiedAt = lastModifiedAt;
+        this.closedDate = closedDate;
+    }
+
+    @Override
+    public String toString() {
+        return "OpenInfo{" +
+                "id=" + id +
+                ", restaurant=" + restaurant +
+                ", managementNum='" + managementNum + '\'' +
+                ", serviceId='" + serviceId + '\'' +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                ", permissionDate=" + permissionDate +
+                ", lastModifiedAt=" + lastModifiedAt +
+                ", closedDate=" + closedDate +
+                '}';
     }
 
 }
