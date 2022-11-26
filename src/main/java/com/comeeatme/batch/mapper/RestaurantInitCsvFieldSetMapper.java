@@ -5,11 +5,11 @@ import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.validation.BindException;
 
-public class RestaurantInitCsvFieldSetMapper implements FieldSetMapper<LocalDataRestaurantDto.LocalDataRestaurantDto> {
+public class RestaurantInitCsvFieldSetMapper implements FieldSetMapper<LocalDataRestaurantDto> {
 
     @Override
-    public LocalDataRestaurantDto.LocalDataRestaurantDto mapFieldSet(FieldSet fieldSet) throws BindException {
-        LocalDataRestaurantDto.LocalDataRestaurantDto restaurant = new LocalDataRestaurantDto.LocalDataRestaurantDto();
+    public LocalDataRestaurantDto mapFieldSet(FieldSet fieldSet) throws BindException {
+        LocalDataRestaurantDto restaurant = new LocalDataRestaurantDto();
         restaurant.setRowNum(fieldSet.readString("번호"));
         restaurant.setOpnSfTeamCode(fieldSet.readString("개방자치단체코드"));
         restaurant.setMgtNo(fieldSet.readString("관리번호"));

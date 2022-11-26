@@ -144,14 +144,14 @@ public class RestaurantInitJobConfig {
 
     @Bean
     public Step normalRestaurantInitFileToDbStep(
-            ItemReader<LocalDataRestaurantDto.LocalDataRestaurantDto> normalRestaurantInitFileReader,
-            ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalData> localDataRestaurantProcessor,
+            ItemReader<LocalDataRestaurantDto> normalRestaurantInitFileReader,
+            ItemProcessor<LocalDataRestaurantDto, LocalData> localDataRestaurantProcessor,
             ItemWriter<LocalData> localDataRestaurantWriter,
             SkipLogSkipListener skipLogSkipListener) {
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
         fixedBackOffPolicy.setBackOffPeriod(2000);
         return stepBuilderFactory.get("normalRestaurantInitFileToDbStep")
-                .<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalData>chunk(CHUNK_SIZE)
+                .<LocalDataRestaurantDto, LocalData>chunk(CHUNK_SIZE)
                 .reader(normalRestaurantInitFileReader)
                 .processor(localDataRestaurantProcessor)
                 .writer(localDataRestaurantWriter)
@@ -171,8 +171,8 @@ public class RestaurantInitJobConfig {
     }
 
     @Bean
-    public ItemReader<LocalDataRestaurantDto.LocalDataRestaurantDto> normalRestaurantInitFileReader() {
-        return new FlatFileItemReaderBuilder<LocalDataRestaurantDto.LocalDataRestaurantDto>()
+    public ItemReader<LocalDataRestaurantDto> normalRestaurantInitFileReader() {
+        return new FlatFileItemReaderBuilder<LocalDataRestaurantDto>()
                 .name("normalRestaurantInitFileReader")
                 .resource(new FileSystemResource(new File(FILE_DIR, "fulldata_07_24_04_P_일반음식점.csv")))
                 .fieldSetMapper(new RestaurantInitCsvFieldSetMapper())
@@ -185,14 +185,14 @@ public class RestaurantInitJobConfig {
 
     @Bean
     public Step restingRestaurantInitFileToDbStep(
-            ItemReader<LocalDataRestaurantDto.LocalDataRestaurantDto> restingRestaurantInitFileReader,
-            ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalData> localDataRestaurantProcessor,
+            ItemReader<LocalDataRestaurantDto> restingRestaurantInitFileReader,
+            ItemProcessor<LocalDataRestaurantDto, LocalData> localDataRestaurantProcessor,
             ItemWriter<LocalData> localDataRestaurantWriter,
             SkipLogSkipListener skipLogSkipListener) {
         FixedBackOffPolicy fixedBackOffPolicy = new FixedBackOffPolicy();
         fixedBackOffPolicy.setBackOffPeriod(2000);
         return stepBuilderFactory.get("restingRestaurantInitFileToDbStep")
-                .<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalData>chunk(CHUNK_SIZE)
+                .<LocalDataRestaurantDto, LocalData>chunk(CHUNK_SIZE)
                 .reader(restingRestaurantInitFileReader)
                 .processor(localDataRestaurantProcessor)
                 .writer(localDataRestaurantWriter)
@@ -212,8 +212,8 @@ public class RestaurantInitJobConfig {
     }
 
     @Bean
-    public ItemReader<LocalDataRestaurantDto.LocalDataRestaurantDto> restingRestaurantInitFileReader() {
-        return new FlatFileItemReaderBuilder<LocalDataRestaurantDto.LocalDataRestaurantDto>()
+    public ItemReader<LocalDataRestaurantDto> restingRestaurantInitFileReader() {
+        return new FlatFileItemReaderBuilder<LocalDataRestaurantDto>()
                 .name("restingRestaurantInitFileReader")
                 .resource(new FileSystemResource(new File(FILE_DIR, "fulldata_07_24_05_P_휴게음식점.csv")))
                 .fieldSetMapper(new RestaurantInitCsvFieldSetMapper())

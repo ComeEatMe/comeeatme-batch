@@ -33,34 +33,34 @@ public class JobCommonConfig {
     }
 
     @Bean
-    public ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalDataRestaurantDto.LocalDataRestaurantDto> restaurantSkipClosedProcessor() {
+    public ItemProcessor<LocalDataRestaurantDto, LocalDataRestaurantDto> restaurantSkipClosedProcessor() {
         return new RestaurantSkipClosedProcessor();
     }
 
     @Bean
-    public ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalDataRestaurantDto.LocalDataRestaurantDto> restaurantTrimProcessor() {
+    public ItemProcessor<LocalDataRestaurantDto, LocalDataRestaurantDto> restaurantTrimProcessor() {
         return new RestaurantTrimProcessor();
     }
 
     @Bean
-    public ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalDataRestaurantDto.LocalDataRestaurantDto> restaurantOldAddressProcessor() {
+    public ItemProcessor<LocalDataRestaurantDto, LocalDataRestaurantDto> restaurantOldAddressProcessor() {
         return new RestaurantOldAddressProcessor();
     }
 
     @Bean
     @Lazy()
-    public ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalData> localDataRestaurantEntityBuildProcessor(
+    public ItemProcessor<LocalDataRestaurantDto, LocalData> localDataRestaurantEntityBuildProcessor(
             AddressCodeRepository addressCodeRepository, JusoService jusoService, JusoLogRepository jusoLogRepository) {
         return new LocalDataRestaurantEntityBuildProcessor(addressCodeRepository, jusoService, jusoLogRepository);
     }
 
     @Bean
-    public ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalData> localDataRestaurantProcessor(
-            ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalDataRestaurantDto.LocalDataRestaurantDto> restaurantSkipClosedProcessor,
-            ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalDataRestaurantDto.LocalDataRestaurantDto> restaurantTrimProcessor,
-            ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalDataRestaurantDto.LocalDataRestaurantDto> restaurantOldAddressProcessor,
-            ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalData> localDataRestaurantEntityBuildProcessor) {
-        return new CompositeItemProcessorBuilder<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalData>()
+    public ItemProcessor<LocalDataRestaurantDto, LocalData> localDataRestaurantProcessor(
+            ItemProcessor<LocalDataRestaurantDto, LocalDataRestaurantDto> restaurantSkipClosedProcessor,
+            ItemProcessor<LocalDataRestaurantDto, LocalDataRestaurantDto> restaurantTrimProcessor,
+            ItemProcessor<LocalDataRestaurantDto, LocalDataRestaurantDto> restaurantOldAddressProcessor,
+            ItemProcessor<LocalDataRestaurantDto, LocalData> localDataRestaurantEntityBuildProcessor) {
+        return new CompositeItemProcessorBuilder<LocalDataRestaurantDto, LocalData>()
                 .delegates(
                         restaurantSkipClosedProcessor,
                         restaurantTrimProcessor,

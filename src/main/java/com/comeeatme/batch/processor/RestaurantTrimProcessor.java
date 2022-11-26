@@ -6,10 +6,10 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
-public class RestaurantTrimProcessor implements ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalDataRestaurantDto.LocalDataRestaurantDto> {
+public class RestaurantTrimProcessor implements ItemProcessor<LocalDataRestaurantDto, LocalDataRestaurantDto> {
 
     @Override
-    public LocalDataRestaurantDto.LocalDataRestaurantDto process(LocalDataRestaurantDto.LocalDataRestaurantDto item) throws Exception {
+    public LocalDataRestaurantDto process(LocalDataRestaurantDto item) throws Exception {
         item.setRdnWhlAddr(trimAddr(item.getRdnWhlAddr()));
         item.setSiteWhlAddr(trimAddr(item.getSiteWhlAddr()));
         item.setSiteTel(trimSiteTel(item.getSiteTel()));

@@ -7,7 +7,7 @@ import org.springframework.batch.item.ItemProcessor;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class RestaurantOldAddressProcessor implements ItemProcessor<LocalDataRestaurantDto.LocalDataRestaurantDto, LocalDataRestaurantDto.LocalDataRestaurantDto> {
+public class RestaurantOldAddressProcessor implements ItemProcessor<LocalDataRestaurantDto, LocalDataRestaurantDto> {
 
     private final Map<String, String> addressOldToChanged = Map.ofEntries(
             Map.entry("강원도 양구군 남면", "강원도 양구군 국토정중앙면"),
@@ -66,7 +66,7 @@ public class RestaurantOldAddressProcessor implements ItemProcessor<LocalDataRes
     );
 
     @Override
-    public LocalDataRestaurantDto.LocalDataRestaurantDto process(LocalDataRestaurantDto.LocalDataRestaurantDto item) throws Exception {
+    public LocalDataRestaurantDto process(LocalDataRestaurantDto item) throws Exception {
         for (Map.Entry<String, String> oldChanged : addressOldToChanged.entrySet()) {
             String oldAddr = oldChanged.getKey();
             String changedAddr = oldChanged.getValue();
