@@ -12,6 +12,8 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -24,6 +26,8 @@ public class LocalDataRestaurantEntityBuildProcessor implements ItemProcessor<Lo
     private final JusoService jusoService;
 
     private final JusoLogRepository jusoLogRepository;
+
+    private final DateTimeFormatter updateDtFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
 
     public LocalDataRestaurantEntityBuildProcessor(
             AddressCodeRepository addressCodeRepository, JusoService jusoService, JusoLogRepository jusoLogRepository) {
@@ -52,7 +56,8 @@ public class LocalDataRestaurantEntityBuildProcessor implements ItemProcessor<Lo
                 .name(item.getOpnSvcNm())
                 .category(item.getUptaeNm())
                 .permissionDate(item.getApvPermYmd())
-                .closedDate(item.getDcbYmd())
+                .closedDate(Optional.ofNullable(item.getDcbYmd()).orElse(""))
+                .updateAt(LocalDateTime.parse(item.getUpdateDt(), updateDtFormatter))
                 .build();
     }
 

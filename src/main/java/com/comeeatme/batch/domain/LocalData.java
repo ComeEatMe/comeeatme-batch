@@ -9,6 +9,8 @@ import org.springframework.data.domain.Persistable;
 
 import javax.persistence.*;
 
+import java.time.LocalDateTime;
+
 import static java.util.Objects.isNull;
 
 @Entity
@@ -47,8 +49,11 @@ public class LocalData extends BaseTimeEntity implements Persistable<String> {
     private String permissionDate;
 
     // 폐업 일자
-    @Column(name = "closed_date", length = 25)
+    @Column(name = "closed_date", length = 25, nullable = false)
     private String closedDate;
+
+    @Column(name = "update_at", nullable = false)
+    private LocalDateTime updateAt;
 
     @Builder
     private LocalData(
@@ -58,7 +63,8 @@ public class LocalData extends BaseTimeEntity implements Persistable<String> {
             String name,
             String category,
             String permissionDate,
-            String closedDate) {
+            String closedDate,
+            LocalDateTime updateAt) {
         this.restaurant = restaurant;
         this.serviceId = serviceId;
         this.name = name;
@@ -66,6 +72,7 @@ public class LocalData extends BaseTimeEntity implements Persistable<String> {
         this.managementNum = managementNum;
         this.permissionDate = permissionDate;
         this.closedDate = closedDate;
+        this.updateAt = updateAt;
     }
 
     @Override
@@ -76,8 +83,9 @@ public class LocalData extends BaseTimeEntity implements Persistable<String> {
                 ", serviceId='" + serviceId + '\'' +
                 ", name='" + name + '\'' +
                 ", category='" + category + '\'' +
-                ", permissionDate=" + permissionDate +
-                ", closedDate=" + closedDate +
+                ", permissionDate='" + permissionDate + '\'' +
+                ", closedDate='" + closedDate + '\'' +
+                ", localDataLastModifiedAt=" + updateAt +
                 '}';
     }
 
